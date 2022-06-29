@@ -26,14 +26,14 @@ import sqlite3
 # Create a window with three buttons and a text field
 
 win = Tk()
-win.title("My Window")
+win.title("NIELIT Office Management System")
 win.geometry("400x400")
 
 
 
 
 # Global IMG for EMP
-icon = PhotoImage(file="./res/img/logo.jpg")
+icon = PhotoImage(file="./res/img/logo.png")
 thumbnail_login = Image.open("./res/img/login_background.jpg")
 thumbnail = ImageTk.PhotoImage(thumbnail_login)
 
@@ -45,14 +45,19 @@ image3='./res/img/white_bg.png'
 
 
 def main():
+    #add image to window
+    win.iconphoto(False, icon)
+    #add background image to window
+    # win.configure(background='black')
+    
     emp_menu = Button(win, text="Employee", command=emp_main)
-    emp_menu.pack()
+    emp_menu.grid(row=1,column=1, padx=10, pady=10)
 
     lib_menu = Button(win, text="Library", command=lib_main)
-    lib_menu.pack()
+    lib_menu.grid(row=4,column=0, padx=10, pady=10)
 
     inv_menu = Button(win, text="Inventory", command=inv_main)
-    inv_menu.pack()
+    inv_menu.grid(row=4,column=4, padx=10, pady=10)
 
 
 
@@ -171,7 +176,7 @@ def emp_main():
             bg_canvas.pack(fill='both', expand=True)
             bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
             bg_canvas.create_image(250, 130, image=icon)
-            bg_canvas.create_text(250, 250, text="Master-Manager",
+            bg_canvas.create_text(250, 250, text="NIELIT-Employee-Management",
                                 font="Courier 15", fill="white")
             # overriding to fullscreen
             splash.overrideredirect(True)
@@ -200,7 +205,7 @@ def emp_main():
             pass
         # login variable as a tkinter instance
         login = Toplevel()
-        login.title("Master-Manager")
+        login.title("NIELIT-Employee-Management")
         # window icon
         # icon = PhotoImage(file=login_icon)
         login.iconphoto(False, icon)
@@ -486,21 +491,21 @@ def emp_main():
             pd = pay_entry.get()
 
             if ids == '':
-                messagebox.showerror("Master-Manager", 'ID Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'ID Entry is empty')
             elif fn == '':
-                messagebox.showerror("Master-Manager", 'FIRST NAME Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'FIRST NAME Entry is empty')
             elif ln == '':
-                messagebox.showerror("Master-Manager", 'LAST NAME Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'LAST NAME Entry is empty')
             elif dep == '':
-                messagebox.showerror("Master-Manager", 'DEPARTMENT Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'DEPARTMENT Entry is empty')
             elif tm == '':
-                messagebox.showerror("Master-Manager", 'TEAM Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'TEAM Entry is empty')
             elif pst == '':
-                messagebox.showerror("Master-Manager", 'POST Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'POST Entry is empty')
             elif sft == '':
-                messagebox.showerror("Master-Manager", 'SHIFT Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'SHIFT Entry is empty')
             elif pd == '':
-                messagebox.showerror("Master-Manager", 'PAY Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'PAY Entry is empty')
             else:
                 # updating row data in treeview widget
                 selected = tv.focus()
@@ -537,11 +542,11 @@ def emp_main():
             res = ''
             if len(target) == 1:
                 # asking for conformation
-                res = messagebox.askquestion("Master-Manager", "Are you sure?\nRemove "+'SL_NO: '+str(employee_details[0])+" "+str(employee_details[1])+" "+str(
+                res = messagebox.askquestion("NIELIT-Employee-Management", "Are you sure?\nRemove "+'SL_NO: '+str(employee_details[0])+" "+str(employee_details[1])+" "+str(
                     employee_details[2])+" "+str(employee_details[3])+" "+str(employee_details[4])+" "+str(employee_details[5])+" "+str(employee_details[6]))
             if len(target) > 1:
                 res = messagebox.askquestion(
-                    "Master-Manager", "Are you sure?\nRemove "+str(len(target))+" Employees")
+                    "NIELIT-Employee-Management", "Are you sure?\nRemove "+str(len(target))+" Employees")
             else:
                 pass
             if res == 'yes':
@@ -576,7 +581,7 @@ def emp_main():
             # method to del all data only after authintication
             def delete_database_auth_done():
                 res = messagebox.askquestion(
-                    "Master-Manager", 'Are you sure?\nDeleted data cannot be recovered later !')
+                    "NIELIT-Employee-Management", 'Are you sure?\nDeleted data cannot be recovered later !')
                 if res == 'yes':
                     for rows in tv.get_children():
                         tv.delete(rows)
@@ -632,7 +637,7 @@ def emp_main():
 
                 auth_del.mainloop()
             warning = messagebox.showwarning(
-                "Master-Manager", 'All the Employee data will be deleted !')
+                "NIELIT-Employee-Management", 'All the Employee data will be deleted !')
             if warning:
                 auth_for_del_database()
             else:
@@ -667,21 +672,21 @@ def emp_main():
             pd = pay_entry.get()
             # Error protection logic
             if ids == '':
-                messagebox.showerror("Master-Manager", 'ID Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'ID Entry is empty')
             elif fn == '':
-                messagebox.showerror("Master-Manager", 'FIRST NAME Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'FIRST NAME Entry is empty')
             elif ln == '':
-                messagebox.showerror("Master-Manager", 'LAST NAME Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'LAST NAME Entry is empty')
             elif dep == '':
-                messagebox.showerror("Master-Manager", 'DEPARTMENT Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'DEPARTMENT Entry is empty')
             elif tm == '':
-                messagebox.showerror("Master-Manager", 'TEAM Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'TEAM Entry is empty')
             elif pst == '':
-                messagebox.showerror("Master-Manager", 'POST Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'POST Entry is empty')
             elif sft == '':
-                messagebox.showerror("Master-Manager", 'SHIFT Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'SHIFT Entry is empty')
             elif pd == '':
-                messagebox.showerror("Master-Manager", 'PAY Entry is empty')
+                messagebox.showerror("NIELIT-Employee-Management", 'PAY Entry is empty')
             else:
                 # storing all fields data into a temp list
                 emp_data = [str(len(data)+1), ids, fn, ln, dep, tm, pst, sft, pd]
@@ -1137,7 +1142,7 @@ def emp_main():
         menu.add_cascade(label='Help', menu=help_menu)
         help_menu.add_command(label='View Help',command=open_view_help)
         help_menu.add_command(label='Send Feedback',command=open_feedback)
-        help_menu.add_command(label='About Master-Manager',command=open_about)
+        help_menu.add_command(label='About NIELIT-Employee-Management',command=open_about)
         help_menu.add_separator()
         # help_menu.add_command(label='Made By Vivek Kushal Chakraborty')
 
@@ -1148,7 +1153,7 @@ def emp_main():
 
         # method to save the Changed data to DATABASE.xlsx file upon exit Application
         def close_main_window():
-            res = messagebox.askyesnocancel("Master-Manager", 'SAVE CHANGES ?')
+            res = messagebox.askyesnocancel("NIELIT-Employee-Management", 'SAVE CHANGES ?')
             if res:
                 update_db_file()
                 main.destroy()
@@ -1241,20 +1246,20 @@ def lib_main():
             self.f1=Frame(self.a,height=500,width=650,bg='white')
             self.f1.place(x=500,y=100)
             l1=Label(self.f1,text='Book ID : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=50)
-            e1=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.aid).place(x=150,y=50)
+            e1=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.aid).place(x=150,y=50)
             l2=Label(self.f1,text='Title : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=100)
-            e2=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.aname).place(x=150,y=100)
+            e2=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.aname).place(x=150,y=100)
             l3=Label(self.f1,text='Author : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=150)
-            e3=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.aauthor).place(x=150,y=150)
+            e3=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.aauthor).place(x=150,y=150)
             l4=Label(self.f1,text='Genre : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=200)
-            e2=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.agenre).place(x=150,y=200)
+            e2=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.agenre).place(x=150,y=200)
             l4=Label(self.f1,text='Copies : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=250)
-            e2=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.acopies).place(x=150,y=250)
+            e2=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.acopies).place(x=150,y=250)
             l5=Label(self.f1,text='Location : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=300)
-            e3=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.aloc).place(x=150,y=300)
+            e3=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.aloc).place(x=150,y=300)
             self.f1.grid_propagate(0)
-            b1=Button(self.f1,text='Add',font='Papyrus 10 bold',fg='black',bg='orange',width=15,bd=3,command=self.adddata).place(x=150,y=400)
-            b2=Button(self.f1,text='Back',font='Papyrus 10 bold',fg='black',bg='orange',width=15,bd=3,command=self.rm).place(x=350,y=400)
+            b1=Button(self.f1,text='Add',font='Papyrus 10 bold',fg='black',bg='#7DB5E2',width=15,bd=3,command=self.adddata).place(x=150,y=400)
+            b2=Button(self.f1,text='Back',font='Papyrus 10 bold',fg='black',bg='#7DB5E2',width=15,bd=3,command=self.rm).place(x=350,y=400)
 
         def rm(self):
             self.f1.destroy()
@@ -1290,9 +1295,9 @@ def lib_main():
             self.f1=Frame(self.a,height=500,width=650,bg='white')
             self.f1.place(x=500,y=100)
             l1=Label(self.f1,text='Book ID/Title/Author/Genre: ',font=('Papyrus 10 bold'),bd=2, fg='black',bg='white').place(x=20,y=40)
-            e1=Entry(self.f1,width=25,bd=5,bg='orange',fg='black',textvariable=self.sid).place(x=260,y=40)
-            b1=Button(self.f1,text='Search',bg='orange',font='Papyrus 10 bold',width=9,bd=2,command=self.serch1).place(x=500,y=37)
-            b1=Button(self.f1,text='Back',bg='orange',font='Papyrus 10 bold',width=10,bd=2,command=self.rm).place(x=250,y=450)
+            e1=Entry(self.f1,width=25,bd=5,bg='#7DB5E2',fg='black',textvariable=self.sid).place(x=260,y=40)
+            b1=Button(self.f1,text='Search',bg='#7DB5E2',font='Papyrus 10 bold',width=9,bd=2,command=self.serch1).place(x=500,y=37)
+            b1=Button(self.f1,text='Back',bg='#7DB5E2',font='Papyrus 10 bold',width=10,bd=2,command=self.rm).place(x=250,y=450)
 
         def create_tree(self,plc,lists):
             self.tree=ttk.Treeview(plc,height=13,column=(lists),show='headings')
@@ -1389,9 +1394,9 @@ def lib_main():
                 self.e5=Entry(self.f1,width=20,textvariable=self.scop)
                 self.e5.place(x=310,y=100)
                 if varr==0:
-                    b5=Button(self.f1,text='Update',font='Papyrus 10 bold',bg='orange',fg='black',width=9,bd=3,command=self.copiesadd).place(x=500,y=97)
+                    b5=Button(self.f1,text='Update',font='Papyrus 10 bold',bg='#7DB5E2',fg='black',width=9,bd=3,command=self.copiesadd).place(x=500,y=97)
                 if varr==1:
-                    b6=Button(self.f1,text='Update',font='Papyrus 10 bold',bg='orange',fg='black',width=9,bd=3,command=self.copiesdelete).place(x=500,y=97)
+                    b6=Button(self.f1,text='Update',font='Papyrus 10 bold',bg='#7DB5E2',fg='black',width=9,bd=3,command=self.copiesdelete).place(x=500,y=97)
             except:
                 messagebox.showinfo("Empty","Please select something.")
 
@@ -1432,7 +1437,7 @@ def lib_main():
         def all(self):
             self.f1=Frame(self.a,height=500,width=650,bg='white')
             self.f1.place(x=500,y=100)
-            b1=Button(self.f1,text='Back',bg='orange' ,fg='black',width=10,bd=3,command=self.rm).place(x=250,y=400)
+            b1=Button(self.f1,text='Back',bg='#7DB5E2' ,fg='black',width=10,bd=3,command=self.rm).place(x=250,y=400)
             conn=sqlite3.connect('booklist.db')
             self.list3=("BOOK ID","TITLE","AUTHOR","GENRE","COPIES","LOCATION")
             self.treess=self.create_tree(self.f1,self.list3)
@@ -1462,11 +1467,11 @@ def lib_main():
             self.f1=Frame(self.a,height=550,width=500,bg='white')
             self.f1.place(x=500,y=100)
             l1=Label(self.f1,text='Book ID : ',font='papyrus 15 bold',bg='white',fg='black').place(x=50,y=100)
-            e1=Entry(self.f1,width=25,bd=4,bg='orange',textvariable=self.aidd).place(x=180,y=100)
+            e1=Entry(self.f1,width=25,bd=4,bg='#7DB5E2',textvariable=self.aidd).place(x=180,y=100)
             l2=Label(self.f1,text='Student Id : ',font='papyrus 15 bold',bg='white',fg='black').place(x=50,y=150)
-            e2=Entry(self.f1,width=25,bd=4,bg='orange',textvariable=self.astudentt).place(x=180,y=150)
-            b1=Button(self.f1,text='Back',font='Papyrus 10 bold',fg='black',bg='orange',width=10,bd=3,command=self.rm).place(x=50,y=250)
-            b1=Button(self.f1,text='Issue',font='Papyrus 10 bold',fg='black',bg='orange',width=10,bd=3,command=self.issuedbook).place(x=200,y=250)
+            e2=Entry(self.f1,width=25,bd=4,bg='#7DB5E2',textvariable=self.astudentt).place(x=180,y=150)
+            b1=Button(self.f1,text='Back',font='Papyrus 10 bold',fg='black',bg='#7DB5E2',width=10,bd=3,command=self.rm).place(x=50,y=250)
+            b1=Button(self.f1,text='Issue',font='Papyrus 10 bold',fg='black',bg='#7DB5E2',width=10,bd=3,command=self.issuedbook).place(x=200,y=250)
 
         def issuedbook(self):
             bookid=self.aidd.get()
@@ -1504,11 +1509,11 @@ def lib_main():
             self.f1=Frame(self.a,height=550,width=500,bg='white')
             self.f1.place(x=500,y=100)
             l1=Label(self.f1,text='Book ID : ',font='papyrus 15 bold',fg='black', bg='white').place(x=50,y=100)
-            e1=Entry(self.f1,width=25,bd=4,bg='orange',textvariable=self.aidd).place(x=180,y=100)
+            e1=Entry(self.f1,width=25,bd=4,bg='#7DB5E2',textvariable=self.aidd).place(x=180,y=100)
             l2=Label(self.f1,text='Student Id : ',font='papyrus 15 bold',fg='black', bg='white').place(x=50,y=150)
-            e2=Entry(self.f1,width=25,bd=4,bg='orange',textvariable=self.astudentt).place(x=180,y=150)
-            b1=Button(self.f1,text='Back',font='Papyrus 10 bold',bg='orange',fg='black',width=10,bd=3,command=self.rm).place(x=50,y=250)
-            b1=Button(self.f1,text='Return',font='Papyrus 10 bold',bg='orange',fg='black',width=10,bd=3,command=self.returnbook).place(x=200,y=250)
+            e2=Entry(self.f1,width=25,bd=4,bg='#7DB5E2',textvariable=self.astudentt).place(x=180,y=150)
+            b1=Button(self.f1,text='Back',font='Papyrus 10 bold',bg='#7DB5E2',fg='black',width=10,bd=3,command=self.rm).place(x=50,y=250)
+            b1=Button(self.f1,text='Return',font='Papyrus 10 bold',bg='#7DB5E2',fg='black',width=10,bd=3,command=self.returnbook).place(x=200,y=250)
             self.f1.grid_propagate(0)
 
         def returnbook(self):
@@ -1558,12 +1563,12 @@ def lib_main():
 
 
             l1=Label(self.f1,text='Book/Student ID : ',font='Papyrus 15 bold',fg='black',bg='white').place(x=50,y=30)
-            e1=Entry(self.f1,width=20,bd=4,bg='orange',textvariable=self.aidd).place(x=280,y=35)
+            e1=Entry(self.f1,width=20,bd=4,bg='#7DB5E2',textvariable=self.aidd).place(x=280,y=35)
             #l2=Label(self.f1,text='Student Id : ',font='papyrus 15 bold',fg='black',bg='white').place(x=50,y=80)
-            #e2=Entry(self.f1,width=20,bd=4,bg='orange',textvariable=self.astudentt).place(x=180,y=80)
-            b1=Button(self.f1,text='Back',bg='orange',font='Papyrus 10 bold',width=10,bd=3,command=self.rm).place(x=340,y=450)
-            b1=Button(self.f1,text='Search',bg='orange',font='Papyrus 10 bold',width=10,bd=3,command=self.searchact).place(x=40,y=450)
-            b1=Button(self.f1,text='All',bg='orange',font='Papyrus 10 bold',width=10,bd=3,command=self.searchall).place(x=190,y=450)
+            #e2=Entry(self.f1,width=20,bd=4,bg='#7DB5E2',textvariable=self.astudentt).place(x=180,y=80)
+            b1=Button(self.f1,text='Back',bg='#7DB5E2',font='Papyrus 10 bold',width=10,bd=3,command=self.rm).place(x=340,y=450)
+            b1=Button(self.f1,text='Search',bg='#7DB5E2',font='Papyrus 10 bold',width=10,bd=3,command=self.searchact).place(x=40,y=450)
+            b1=Button(self.f1,text='All',bg='#7DB5E2',font='Papyrus 10 bold',width=10,bd=3,command=self.searchall).place(x=190,y=450)
             self.f1.grid_propagate(0)
 
         def searchact(self):
@@ -1618,7 +1623,10 @@ def lib_main():
         canvas.image=photo2
         return canvas
     root = Toplevel()
-    root.title("LOGIN")
+    root.title("LIBRARY IINVENTORY LOGIN")
+    # root.geometry("400x400")
+
+
     """width = 400
     height = 280
     screen_width = root.winfo_screenwidth()
@@ -1684,7 +1692,7 @@ def lib_main():
     Form = Frame(root, height=200)
     Form.pack(side=BOTTOM, pady=20)'''
     #==============================LABELS=========================================
-    lbl_title = Label(canvas, text = "ADMIN   LOGIN", font=('Papyrus', 30,'bold', ),bg='white', fg='black')
+    lbl_title = Label(canvas, text = "LIBRARY   ADMIN   LOGIN", font=('Papyrus', 30,'bold', ),bg='white', fg='black')
     lbl_title.place(x=500,y=100)
     lbl_username = Label(canvas, text = "Username:", font=('Papyrus', 15,'bold'),bd=4,bg='white', fg='black')
     lbl_username.place(x=500,y=230)
@@ -1783,20 +1791,20 @@ def inv_main():
             self.f1=Frame(self.a,height=500,width=650,bg='white')
             self.f1.place(x=500,y=100)
             l1=Label(self.f1,text='Item ID : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=50)
-            e1=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.aid).place(x=150,y=50)
+            e1=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.aid).place(x=150,y=50)
             l2=Label(self.f1,text='Item : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=100)
-            e2=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.aname).place(x=150,y=100)
+            e2=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.aname).place(x=150,y=100)
             l3=Label(self.f1,text='Company : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=150)
-            e3=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.aauthor).place(x=150,y=150)
+            e3=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.aauthor).place(x=150,y=150)
             l4=Label(self.f1,text='Amount : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=200)
-            e2=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.agenre).place(x=150,y=200)
+            e2=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.agenre).place(x=150,y=200)
             l4=Label(self.f1,text='Copies : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=250)
-            e2=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.acopies).place(x=150,y=250)
+            e2=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.acopies).place(x=150,y=250)
             l5=Label(self.f1,text='Location : ',font='Papyrus 12 bold',fg='black',bg='white',pady=1).place(x=50,y=300)
-            e3=Entry(self.f1,width=45,bg='orange',fg='black',textvariable=self.aloc).place(x=150,y=300)
+            e3=Entry(self.f1,width=45,bg='#7DB5E2',fg='black',textvariable=self.aloc).place(x=150,y=300)
             self.f1.grid_propagate(0)
-            b1=Button(self.f1,text='Add',font='Papyrus 10 bold',fg='black',bg='orange',width=15,bd=3,command=self.adddata).place(x=150,y=400)
-            b2=Button(self.f1,text='Back',font='Papyrus 10 bold',fg='black',bg='orange',width=15,bd=3,command=self.rm).place(x=350,y=400)
+            b1=Button(self.f1,text='Add',font='Papyrus 10 bold',fg='black',bg='#7DB5E2',width=15,bd=3,command=self.adddata).place(x=150,y=400)
+            b2=Button(self.f1,text='Back',font='Papyrus 10 bold',fg='black',bg='#7DB5E2',width=15,bd=3,command=self.rm).place(x=350,y=400)
 
         def rm(self):
             self.f1.destroy()
@@ -1832,9 +1840,9 @@ def inv_main():
             self.f1=Frame(self.a,height=500,width=650,bg='white')
             self.f1.place(x=500,y=100)
             l1=Label(self.f1,text='Item ID/Item/Company/Amount: ',font=('Papyrus 10 bold'),bd=2, fg='black',bg='white').place(x=20,y=40)
-            e1=Entry(self.f1,width=25,bd=5,bg='orange',fg='black',textvariable=self.sid).place(x=260,y=40)
-            b1=Button(self.f1,text='Search',bg='orange',font='Papyrus 10 bold',width=9,bd=2,command=self.serch1).place(x=500,y=37)
-            b1=Button(self.f1,text='Back',bg='orange',font='Papyrus 10 bold',width=10,bd=2,command=self.rm).place(x=250,y=450)
+            e1=Entry(self.f1,width=25,bd=5,bg='#7DB5E2',fg='black',textvariable=self.sid).place(x=260,y=40)
+            b1=Button(self.f1,text='Search',bg='#7DB5E2',font='Papyrus 10 bold',width=9,bd=2,command=self.serch1).place(x=500,y=37)
+            b1=Button(self.f1,text='Back',bg='#7DB5E2',font='Papyrus 10 bold',width=10,bd=2,command=self.rm).place(x=250,y=450)
 
         def create_tree(self,plc,lists):
             self.tree=ttk.Treeview(plc,height=13,column=(lists),show='headings')
@@ -1931,9 +1939,9 @@ def inv_main():
                 self.e5=Entry(self.f1,width=20,textvariable=self.scop)
                 self.e5.place(x=310,y=100)
                 if varr==0:
-                    b5=Button(self.f1,text='Update',font='Papyrus 10 bold',bg='orange',fg='black',width=9,bd=3,command=self.copiesadd).place(x=500,y=97)
+                    b5=Button(self.f1,text='Update',font='Papyrus 10 bold',bg='#7DB5E2',fg='black',width=9,bd=3,command=self.copiesadd).place(x=500,y=97)
                 if varr==1:
-                    b6=Button(self.f1,text='Update',font='Papyrus 10 bold',bg='orange',fg='black',width=9,bd=3,command=self.copiesdelete).place(x=500,y=97)
+                    b6=Button(self.f1,text='Update',font='Papyrus 10 bold',bg='#7DB5E2',fg='black',width=9,bd=3,command=self.copiesdelete).place(x=500,y=97)
             except:
                 messagebox.showinfo("Empty","Please select something.")
 
@@ -1974,7 +1982,7 @@ def inv_main():
         def all(self):
             self.f1=Frame(self.a,height=500,width=650,bg='white')
             self.f1.place(x=500,y=100)
-            b1=Button(self.f1,text='Back',bg='orange' ,fg='black',width=10,bd=3,command=self.rm).place(x=250,y=400)
+            b1=Button(self.f1,text='Back',bg='#7DB5E2' ,fg='black',width=10,bd=3,command=self.rm).place(x=250,y=400)
             conn=sqlite3.connect('inventory.db')
             self.list3=("ITEM ID","ITEM","COMPANY","AMOUNT","COPIES","LOCATION")
             self.treess=self.create_tree(self.f1,self.list3)
@@ -2004,11 +2012,11 @@ def inv_main():
             self.f1=Frame(self.a,height=550,width=500,bg='white')
             self.f1.place(x=500,y=100)
             l1=Label(self.f1,text='Item ID : ',font='papyrus 15 bold',bg='white',fg='black').place(x=50,y=100)
-            e1=Entry(self.f1,width=25,bd=4,bg='orange',textvariable=self.aidd).place(x=180,y=100)
+            e1=Entry(self.f1,width=25,bd=4,bg='#7DB5E2',textvariable=self.aidd).place(x=180,y=100)
             l2=Label(self.f1,text='User Id : ',font='papyrus 15 bold',bg='white',fg='black').place(x=50,y=150)
-            e2=Entry(self.f1,width=25,bd=4,bg='orange',textvariable=self.ausert).place(x=180,y=150)
-            b1=Button(self.f1,text='Back',font='Papyrus 10 bold',fg='black',bg='orange',width=10,bd=3,command=self.rm).place(x=50,y=250)
-            b1=Button(self.f1,text='Issue',font='Papyrus 10 bold',fg='black',bg='orange',width=10,bd=3,command=self.issueditem).place(x=200,y=250)
+            e2=Entry(self.f1,width=25,bd=4,bg='#7DB5E2',textvariable=self.ausert).place(x=180,y=150)
+            b1=Button(self.f1,text='Back',font='Papyrus 10 bold',fg='black',bg='#7DB5E2',width=10,bd=3,command=self.rm).place(x=50,y=250)
+            b1=Button(self.f1,text='Issue',font='Papyrus 10 bold',fg='black',bg='#7DB5E2',width=10,bd=3,command=self.issueditem).place(x=200,y=250)
 
         def issueditem(self):
             itemid=self.aidd.get()
@@ -2046,11 +2054,11 @@ def inv_main():
             self.f1=Frame(self.a,height=550,width=500,bg='white')
             self.f1.place(x=500,y=100)
             l1=Label(self.f1,text='Item ID : ',font='papyrus 15 bold',fg='black', bg='white').place(x=50,y=100)
-            e1=Entry(self.f1,width=25,bd=4,bg='orange',textvariable=self.aidd).place(x=180,y=100)
+            e1=Entry(self.f1,width=25,bd=4,bg='#7DB5E2',textvariable=self.aidd).place(x=180,y=100)
             l2=Label(self.f1,text='User Id : ',font='papyrus 15 bold',fg='black', bg='white').place(x=50,y=150)
-            e2=Entry(self.f1,width=25,bd=4,bg='orange',textvariable=self.ausert).place(x=180,y=150)
-            b1=Button(self.f1,text='Back',font='Papyrus 10 bold',bg='orange',fg='black',width=10,bd=3,command=self.rm).place(x=50,y=250)
-            b1=Button(self.f1,text='Return',font='Papyrus 10 bold',bg='orange',fg='black',width=10,bd=3,command=self.returnitem).place(x=200,y=250)
+            e2=Entry(self.f1,width=25,bd=4,bg='#7DB5E2',textvariable=self.ausert).place(x=180,y=150)
+            b1=Button(self.f1,text='Back',font='Papyrus 10 bold',bg='#7DB5E2',fg='black',width=10,bd=3,command=self.rm).place(x=50,y=250)
+            b1=Button(self.f1,text='Return',font='Papyrus 10 bold',bg='#7DB5E2',fg='black',width=10,bd=3,command=self.returnitem).place(x=200,y=250)
             self.f1.grid_propagate(0)
 
         def returnitem(self):
@@ -2099,12 +2107,12 @@ def inv_main():
 
 
             l1=Label(self.f1,text='Item/User ID : ',font='Papyrus 15 bold',fg='black',bg='white').place(x=50,y=30)
-            e1=Entry(self.f1,width=20,bd=4,bg='orange',textvariable=self.aidd).place(x=280,y=35)
+            e1=Entry(self.f1,width=20,bd=4,bg='#7DB5E2',textvariable=self.aidd).place(x=280,y=35)
             #l2=Label(self.f1,text='User Id : ',font='papyrus 15 bold',fg='black',bg='white').place(x=50,y=80)
-            #e2=Entry(self.f1,width=20,bd=4,bg='orange',textvariable=self.ausert).place(x=180,y=80)
-            b1=Button(self.f1,text='Back',bg='orange',font='Papyrus 10 bold',width=10,bd=3,command=self.rm).place(x=340,y=450)
-            b1=Button(self.f1,text='Search',bg='orange',font='Papyrus 10 bold',width=10,bd=3,command=self.searchact).place(x=40,y=450)
-            b1=Button(self.f1,text='All',bg='orange',font='Papyrus 10 bold',width=10,bd=3,command=self.searchall).place(x=190,y=450)
+            #e2=Entry(self.f1,width=20,bd=4,bg='#7DB5E2',textvariable=self.ausert).place(x=180,y=80)
+            b1=Button(self.f1,text='Back',bg='#7DB5E2',font='Papyrus 10 bold',width=10,bd=3,command=self.rm).place(x=340,y=450)
+            b1=Button(self.f1,text='Search',bg='#7DB5E2',font='Papyrus 10 bold',width=10,bd=3,command=self.searchact).place(x=40,y=450)
+            b1=Button(self.f1,text='All',bg='#7DB5E2',font='Papyrus 10 bold',width=10,bd=3,command=self.searchall).place(x=190,y=450)
             self.f1.grid_propagate(0)
 
         def searchact(self):
@@ -2159,7 +2167,9 @@ def inv_main():
         canvas.image=photo2
         return canvas
     root = Toplevel()
-    root.title("LOGIN")
+    root.title("IINVENTORY LOGIN")
+    # root.geometry("400x400")
+
     """width = 400
     height = 280
     screen_width = root.winfo_screenwidth()
@@ -2222,7 +2232,7 @@ def inv_main():
     Form = Frame(root, height=200)
     Form.pack(side=BOTTOM, pady=20)'''
     #==============================LABELS=========================================
-    lbl_title = Label(canvas, text = "ADMIN   LOGIN", font=('Papyrus', 30,'bold', ),bg='white', fg='black')
+    lbl_title = Label(canvas, text = "INVENTORY     ADMIN   LOGIN", font=('Papyrus', 30,'bold', ),bg='white', fg='black')
     lbl_title.place(x=500,y=100)
     lbl_username = Label(canvas, text = "Username:", font=('Papyrus', 15,'bold'),bd=4,bg='white', fg='black')
     lbl_username.place(x=500,y=230)
