@@ -15,6 +15,7 @@ import webbrowser
 from doctest import master
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter.messagebox import askyesno
 #  library for images
 from PIL import Image,ImageTk
 import random
@@ -80,6 +81,13 @@ def emp_main():
             wb.properties.creator = "MASTER-MANAGER"
             emp_record = wb.create_sheet('EMP_RECORD', 0)
             sheet2 = wb.create_sheet('BACKUP_EMP_RECORD', 1)
+            sheet3 = wb.create_sheet('EMP_ATTENDANCE', 2)
+
+            # writing the headers to the first row in EMP_ATTENDANCE sheet
+            sheet3.cell(row=1, column=1).value = "EMP_ID"
+            sheet3.cell(row=1, column=2).value =  "DATE"
+            sheet3.cell(row=1, column=3).value =  "TIME"
+
             # saving the database.xlsx workbook
             wb.save("DATABASE.xlsx")
 
@@ -989,6 +997,58 @@ def emp_main():
             else:
                 messagebox.showerror('MASTER-MANAGER', 'DATABASE.xlsx NOT FOUND')
 
+        def save_attendance(ID,date,time):
+            try: 
+                file_check()
+                wb = pyxl.load_workbook('DATABASE.xlsx')
+                shts = wb.sheetnames
+                emp_ws = wb['EMP_ATTENDANCE']
+                wb.active = emp_ws
+                emp_sheet = wb.active
+
+                emp_sheet.insert_rows(emp_sheet.max_row+1)
+                # emp_sheet.write_row(emp_sheet.max_row+1, 1, [ID])
+                rowValue = [ID,date,time]
+                emp_sheet.append(rowValue)
+
+                wb.save('DATABASE.xlsx')
+            except Exception as ed:
+                print("Database ERROR: ", ed)
+
+
+
+
+        def mark_attendance():
+            import datetime
+            #get date in tkinter
+            date = datetime.datetime.now().strftime("%d-%m-%Y")
+            #get time in tkinter
+            time = datetime.datetime.now().strftime("%H:%M:%S")
+            
+            #get date time in tkinter
+            ID = attendance_id_entry.get()
+            if ID=='':
+                messagebox.showerror("Attendance Confirmation", 'ID Entry is empty')
+            else:
+                answer = askyesno( title='Attendance Confirmation', message='Time Now is {0} {1} \nAre you sure that you want to mark the attendance of emp with ID : {2}?'.format(time, date,ID))
+                # Labels
+                # un = Label(answer, text=now,
+                #             font="Courier 11", bg='#d94856', fg='white')
+                # un.grid(row=0, column=0, padx=10, pady=10)
+
+                #yesnobox
+                if answer:
+                    save_attendance(ID,date,time)
+                    messagebox.showinfo("Success","Attendance of Employee with ID {} added successfully".format(ID))
+                else:
+                    answer.destroy()
+                
+                attendance_id_entry.delete(0, END)
+
+            
+
+            
+            
 
         ##------- BUTTONS FOR MAIN SCREEN/WINDOW ------##
         update_btn = Button(rec_frame, text='UPDATE DETAILS', font="Courier 10", width=15, command=update_data).grid(
@@ -1010,6 +1070,12 @@ def emp_main():
         search_btn = Button(rec_frame, text='Refresh',
                             font="Courier 10", width=15, command=search_emp)
         search_btn.grid(row=3, column=9)
+        
+        attendance_btn = Button(rec_frame, text='Mark Attendance',
+                            font="Courier 10", width=15, command=mark_attendance)
+        attendance_btn.grid(row=3, column=11)
+        attendance_id_entry = Entry(rec_frame, font="Courier 12", width=18)
+        attendance_id_entry.grid(row=3, column=12, padx=10, pady=10)
 
 
         # Dynamically change To and From Refresh and Search Buttons
@@ -1092,9 +1158,6 @@ def emp_main():
         main.protocol("WM_DELETE_WINDOW", close_main_window)
 
         main.mainloop()
-
-
-
 
 
     # 1st SCREEN/WINDOW TO START THE APPLICATION
