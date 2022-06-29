@@ -999,7 +999,6 @@ def emp_main():
 
         def save_attendance(ID,date,time):
             try: 
-                file_check()
                 wb = pyxl.load_workbook('DATABASE.xlsx')
                 shts = wb.sheetnames
                 emp_ws = wb['EMP_ATTENDANCE']
@@ -1027,10 +1026,14 @@ def emp_main():
             
             #get date time in tkinter
             ID = attendance_id_entry.get()
+            # give red color to attendance_id_entry
             if ID=='':
+                attendance_id_entry.config(highlightbackground = "red", highlightcolor= "red")
                 messagebox.showerror("Attendance Confirmation", 'ID Entry is empty')
             else:
+                attendance_id_entry.config(highlightbackground = None, highlightcolor= None)
                 answer = askyesno( title='Attendance Confirmation', message='Time Now is {0} {1} \nAre you sure that you want to mark the attendance of emp with ID : {2}?'.format(time, date,ID))
+
                 # Labels
                 # un = Label(answer, text=now,
                 #             font="Courier 11", bg='#d94856', fg='white')
