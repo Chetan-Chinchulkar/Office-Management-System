@@ -41,9 +41,10 @@ icon = PhotoImage(file="./res/img/logo.png")
 thumbnail_login = Image.open("./res/img/login_background.jpg")
 thumbnail = ImageTk.PhotoImage(thumbnail_login)
 
-image1='./res/img/white_bg.png'
-image2='./res/img/white_bg.png'
-image3='./res/img/white_bg.png'
+image1='./res/img/login_background.jpg'
+image2='./res/img/login_background.jpg'
+image3='./res/img/login_background.jpg'
+
 
 
 
@@ -395,6 +396,66 @@ def emp_main():
         refresh_treeview()
 
 
+        def save_attendance(ID,date,time):
+            try: 
+                wb = pyxl.load_workbook('DATABASE.xlsx')
+                shts = wb.sheetnames
+                emp_ws = wb['EMP_ATTENDANCE']
+                wb.active = emp_ws
+                emp_sheet = wb.active
+
+                emp_sheet.insert_rows(emp_sheet.max_row+1)
+                # emp_sheet.write_row(emp_sheet.max_row+1, 1, [ID])
+                rowValue = [ID,date,time]
+                emp_sheet.append(rowValue)
+
+                wb.save('DATABASE.xlsx')
+            except Exception as ed:
+                print("Database ERROR: ", ed)
+
+
+
+
+        def mark_attendance():
+            import datetime
+            #get date in tkinter
+            date = datetime.datetime.now().strftime("%d-%m-%Y")
+            #get time in tkinter
+            time = datetime.datetime.now().strftime("%H:%M:%S")
+            
+            #get date time in tkinter
+            ID = attendance_id_entry.get()
+            # give red color to attendance_id_entry
+            if ID=='':
+                attendance_id_entry.config(highlightbackground = "red", highlightcolor= "red")
+                messagebox.showerror("Attendance Confirmation", 'ID Entry is empty')
+            else:
+                attendance_id_entry.config(highlightbackground = None, highlightcolor= None)
+                answer = askyesno( title='Attendance Confirmation', message='Time Now is {0} {1} \nAre you sure that you want to mark the attendance of emp with ID : {2}?'.format(time, date,ID))
+
+                # Labels
+                # un = Label(answer, text=now,
+                #             font="Courier 11", bg='#d94856', fg='white')
+                # un.grid(row=0, column=0, padx=10, pady=10)
+
+                #yesnobox
+                if answer:
+                    save_attendance(ID,date,time)
+                    messagebox.showinfo("Success","Attendance of Employee with ID {} added successfully".format(ID))
+                else:
+                    answer.destroy()
+                
+                attendance_id_entry.delete(0, END)
+
+         
+        # new frame 
+        new_frame = LabelFrame(main,text="Attendance")
+        new_frame.pack(pady=10, expand='yes')
+        attendance_btn = Button(new_frame, text='Mark Attendance',
+                            font="Courier 10", width=15, command=mark_attendance)
+        attendance_btn.grid(row=0, column=2, padx=10, pady=10)
+        attendance_id_entry = Entry(new_frame, font="Courier 12", width=18)
+        attendance_id_entry.grid(row=0, column=1, padx=10, pady=10)
 
         ##---- LABEL FRAME FOR LABELS,ENTRYBOX AND BUTTONS ----##
 
@@ -1023,61 +1084,7 @@ def emp_main():
                     'MASTER-MANAGER', 'File Exported to\n'+target_path+'/DATABASE.xlsx')
             else:
                 messagebox.showerror('MASTER-MANAGER', 'DATABASE.xlsx NOT FOUND')
-
-        def save_attendance(ID,date,time):
-            try: 
-                wb = pyxl.load_workbook('DATABASE.xlsx')
-                shts = wb.sheetnames
-                emp_ws = wb['EMP_ATTENDANCE']
-                wb.active = emp_ws
-                emp_sheet = wb.active
-
-                emp_sheet.insert_rows(emp_sheet.max_row+1)
-                # emp_sheet.write_row(emp_sheet.max_row+1, 1, [ID])
-                rowValue = [ID,date,time]
-                emp_sheet.append(rowValue)
-
-                wb.save('DATABASE.xlsx')
-            except Exception as ed:
-                print("Database ERROR: ", ed)
-
-
-
-
-        def mark_attendance():
-            import datetime
-            #get date in tkinter
-            date = datetime.datetime.now().strftime("%d-%m-%Y")
-            #get time in tkinter
-            time = datetime.datetime.now().strftime("%H:%M:%S")
-            
-            #get date time in tkinter
-            ID = attendance_id_entry.get()
-            # give red color to attendance_id_entry
-            if ID=='':
-                attendance_id_entry.config(highlightbackground = "red", highlightcolor= "red")
-                messagebox.showerror("Attendance Confirmation", 'ID Entry is empty')
-            else:
-                attendance_id_entry.config(highlightbackground = None, highlightcolor= None)
-                answer = askyesno( title='Attendance Confirmation', message='Time Now is {0} {1} \nAre you sure that you want to mark the attendance of emp with ID : {2}?'.format(time, date,ID))
-
-                # Labels
-                # un = Label(answer, text=now,
-                #             font="Courier 11", bg='#d94856', fg='white')
-                # un.grid(row=0, column=0, padx=10, pady=10)
-
-                #yesnobox
-                if answer:
-                    save_attendance(ID,date,time)
-                    messagebox.showinfo("Success","Attendance of Employee with ID {} added successfully".format(ID))
-                else:
-                    answer.destroy()
-                
-                attendance_id_entry.delete(0, END)
-
-            
-
-            
+         
             
 
         ##------- BUTTONS FOR MAIN SCREEN/WINDOW ------##
@@ -1101,11 +1108,7 @@ def emp_main():
                             font="Courier 10", width=15, command=search_emp)
         search_btn.grid(row=3, column=9)
         
-        attendance_btn = Button(rec_frame, text='Mark Attendance',
-                            font="Courier 10", width=15, command=mark_attendance)
-        attendance_btn.grid(row=3, column=11)
-        attendance_id_entry = Entry(rec_frame, font="Courier 12", width=18)
-        attendance_id_entry.grid(row=3, column=12, padx=10, pady=10)
+        
 
 
         # Dynamically change To and From Refresh and Search Buttons
@@ -1224,6 +1227,12 @@ def lib_main():
             conn.commit()
             conn.close()
             self.a=self.canvases(image1)
+
+            self.a.create_image(0, 0, anchor=NW, image=icon)
+            self.a.grid(row=0, column=0)
+            text = Label(win, text="NIELIT Library Management System", font=("Roboto", 20))
+            text.grid(row=0, column=1, columnspan=5, padx=10, pady=10)
+    
             l1=Button(self.a,text='BOOK',font='Papyrus 22 bold',fg='black',bg='white',width=19,padx=10,borderwidth=0,command=self.book).place(x=100,y=500)
             l2=Button(self.a,text='STUDENTS',font='Papyrus 22 bold',fg='black',bg='white',width=19,padx=10,borderwidth=0,command=self.student).place(x=800,y=500)
             self.root.mainloop()
@@ -1798,8 +1807,19 @@ def inv_main():
             conn.commit()
             conn.close()
             self.a=self.canvases(image1)
-            l1=Button(self.a,text='ITEM',font='Papyrus 22 bold',fg='black',bg='white',width=19,padx=10,borderwidth=0,command=self.item).place(x=100,y=500)
-            l2=Button(self.a,text='USERS',font='Papyrus 22 bold',fg='black',bg='white',width=19,padx=10,borderwidth=0,command=self.user).place(x=800,y=500)
+
+
+            # insert logo and text on self.a
+            
+
+            self.a.create_image(0, 0, anchor=NW, image=icon)
+            self.a.grid(row=0, column=0)
+            text = Label(win, text="NIELIT Inventory Management System", font=("Roboto", 20))
+            text.grid(row=0, column=1, columnspan=5, padx=10, pady=10)
+    
+
+            l1=Button(self.a,text='ITEM',font='Papyrus 22 bold',fg='black',bg='white',width=15,padx=10,borderwidth=0,command=self.item).place(x=100,y=500)
+            l2=Button(self.a,text='USERS',font='Papyrus 22 bold',fg='black',bg='white',width=15,padx=10,borderwidth=0,command=self.user).place(x=800,y=500)
             self.root.mainloop()
             
             
