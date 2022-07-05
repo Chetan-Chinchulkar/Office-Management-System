@@ -67,8 +67,6 @@ def main():
     canvas = Canvas(win, width=200, height=200)
     canvas.grid(row=0, column=0)
     canvas.create_image(0, 0, anchor=NW, image=icon)
-    # make canvas background transparent
-    # canvas.wm_attributes('-transparentcolor', '#ab23ff')
 
     #insert text in main window
     text = Label(win, text="NIELIT Office Management System", font=("Roboto", 20))
@@ -82,58 +80,6 @@ def main():
 
     inv_menu = Button(win, text="Inventory", command=inv_main)
     inv_menu.grid(row=4,column=4, padx=10, pady=10)
-
-
-def splash_screen(app):
-    try:
-        # loading data from exel database file in different thread
-        # read_xlsx_thread = threading.Thread(target=read_xlsx)
-        # read_xlsx_thread.start()
-        # splash screen/window
-        splash = Toplevel()
-        # pos and size of splash scereen
-        screen_width = splash.winfo_screenwidth()
-        screen_height = splash.winfo_screenheight()
-        splash.geometry("500x300+"+str(screen_width//2-250) +
-                        "+"+str(screen_height//2-150))
-        # adding splash image
-        # img = Image.open("./res/img/logo.jpg")
-        # img = img.resize((200, 200), Image.ANTIALIAS)
-        # thumbnail = ImageTk.PhotoImage(img)
-        # img2 = Image.open("./res/img/login_background.jpg")
-        # thumbnail2 = ImageTk.PhotoImage(thumbnail_splash2)
-        # creating canvas for background image
-        bg_canvas = Canvas(splash, width=500, height=300)
-        bg_canvas.pack(fill='both', expand=True)
-        bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
-        bg_canvas.create_image(250, 130, image=icon)
-
-        if app == "emp":
-            text = "Employee"
-        elif app == "lib":
-            text = "Library"
-        elif app == "inv":
-            text = "Inventory"
-
-        bg_canvas.create_text(250, 250, text="NIELIT-{}-Management".format(text.upper()),
-                            font="Courier 15", fill="white")
-        # overriding to fullscreen
-        splash.overrideredirect(True)
-        # loding progress bar
-        sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
-        sp_bar.pack(side="bottom")
-        sp_bar.start(15)
-        # stop the progressbar and call login screen 
-        def destroy_screen():
-            sp_bar.stop()
-            splash.destroy()
-            # login_screen(splash)
-        # after aprox 1 sec call destroy_screen method    
-        splash.after(1000, destroy_screen)
-
-        splash.mainloop()
-    except Exception as ed:
-        print("SPLASH SCREEN ERROR: ", ed)
 
 
 
@@ -229,52 +175,56 @@ def emp_main():
             file_check()
 
     # 1st WINDOW/SCREEN FOR SPLASH/LOADING PROGRESS
-    # def splash_screen():
-    #     try:
-    #         # loading data from exel database file in different thread
-    #         read_xlsx_thread = threading.Thread(target=read_xlsx)
-    #         read_xlsx_thread.start()
-    #         # splash screen/window
-    #         splash = Toplevel()
-    #         # pos and size of splash scereen
-    #         screen_width = splash.winfo_screenwidth()
-    #         screen_height = splash.winfo_screenheight()
-    #         splash.geometry("500x300+"+str(screen_width//2-250) +
-    #                         "+"+str(screen_height//2-150))
-    #         # adding splash image
-    #         # img = Image.open("./res/img/logo.jpg")
-    #         # img = img.resize((200, 200), Image.ANTIALIAS)
-    #         # thumbnail = ImageTk.PhotoImage(img)
-    #         # img2 = Image.open("./res/img/login_background.jpg")
-    #         # thumbnail2 = ImageTk.PhotoImage(thumbnail_splash2)
-    #         # creating canvas for background image
-    #         bg_canvas = Canvas(splash, width=500, height=300)
-    #         bg_canvas.pack(fill='both', expand=True)
-    #         bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
-    #         bg_canvas.create_image(250, 130, image=icon)
-    #         bg_canvas.create_text(250, 250, text="NIELIT-Employee-Management",
-    #                             font="Courier 15", fill="white")
-    #         # overriding to fullscreen
-    #         splash.overrideredirect(True)
-    #         # loding progress bar
-    #         sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
-    #         sp_bar.pack(side="bottom")
-    #         sp_bar.start(15)
-    #         # stop the progressbar and call login screen 
-    #         def destroy_screen():
-    #             sp_bar.stop()
-    #             login_screen(splash)
-    #         # after aprox 1 sec call destroy_screen method    
-    #         splash.after(1000, destroy_screen)
+    def splash_screen():
+        try:
+            # loading data from exel database file in different thread
+            read_xlsx_thread = threading.Thread(target=read_xlsx)
+            read_xlsx_thread.start()
+            # splash screen/window
+            splash = Toplevel()
+            # pos and size of splash scereen
+            screen_width = splash.winfo_screenwidth()
+            screen_height = splash.winfo_screenheight()
+            splash.geometry("500x300+"+str(screen_width//2-250) +
+                            "+"+str(screen_height//2-150))
+            # adding splash image
+            # img = Image.open("./res/img/logo.jpg")
+            # img = img.resize((200, 200), Image.ANTIALIAS)
+            # thumbnail = ImageTk.PhotoImage(img)
+            # img2 = Image.open("./res/img/login_background.jpg")
+            # thumbnail2 = ImageTk.PhotoImage(thumbnail_splash2)
+            # creating canvas for background image
+            bg_canvas = Canvas(splash, width=500, height=300)
+            bg_canvas.pack(fill='both', expand=True)
+            bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
+            bg_canvas.create_image(250, 130, image=icon)
+            bg_canvas.create_text(250, 250, text="NIELIT-Employee-Management",
+                                font="Courier 15", fill="white")
+            # overriding to fullscreen
+            splash.overrideredirect(True)
+            # loding progress bar
+            sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
+            sp_bar.pack(side="bottom")
+            sp_bar.start(15)
+            # stop the progressbar and call login screen 
+            def destroy_screen():
+                sp_bar.stop()
+                login_screen(splash)
+            # after aprox 1 sec call destroy_screen method    
+            splash.after(1000, destroy_screen)
 
-    #         splash.mainloop()
-    #     except Exception as ed:
-    #         print("SPLASH SCREEN ERROR: ", ed)
+            splash.mainloop()
+        except Exception as ed:
+            print("SPLASH SCREEN ERROR: ", ed)
 
 
     # 2nd SCREEN/WINDOW FOR LOGIN
-    def login_screen():
-        splash_screen("emp")
+    def login_screen(splash):
+        try:
+            # destroy the splash screen
+            splash.destroy()
+        except Exception:
+            pass
         # login variable as a tkinter instance
         login = Toplevel()
         login.title("NIELIT-Employee-Management")
@@ -1241,7 +1191,7 @@ def emp_main():
 
 
     # 1st SCREEN/WINDOW TO START THE APPLICATION
-    splash_screen("emp")
+    splash_screen()
 
 
 def lib_main():
@@ -2298,50 +2248,50 @@ def inv_main():
     # root.mainloop()
 
      # 1st WINDOW/SCREEN FOR SPLASH/LOADING PROGRESS
-    # def splash_screen():
-    #     try:
-    #         # root.destroy()
-    #         splash = Tk()
-    #         # pos and size of splash scereen
-    #         screen_width = splash.winfo_screenwidth()
-    #         screen_height = splash.winfo_screenheight()
-    #         splash.geometry("500x300+"+str(screen_width//2-250) +
-    #                         "+"+str(screen_height//2-150))
+    def splash_screen():
+        try:
+            # root.destroy()
+            splash = Toplevel()
+            # pos and size of splash scereen
+            screen_width = splash.winfo_screenwidth()
+            screen_height = splash.winfo_screenheight()
+            splash.geometry("500x300+"+str(screen_width//2-250) +
+                            "+"+str(screen_height//2-150))
             
-    #         bg_canvas = Canvas(splash, width=500, height=300)
-    #         bg_canvas.pack(fill='both', expand=True)
-    #         bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
-    #         bg_canvas.create_image(250, 130, image=icon)
-    #         bg_canvas.create_text(250, 250, text="Master-Manager",
-    #                             font="Courier 15", fill="white")
-    #         # overriding to fullscreen
-    #         splash.overrideredirect(True)
-    #         # loding progress bar
-    #         sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
-    #         sp_bar.pack(side="bottom")
-    #         sp_bar.start(15)
-    #         # stop the progressbar and call login screen 
-    #         def destroy_screen():
-    #             sp_bar.stop()
-    #             login_screen(splash)
-    #         # after aprox 1 sec call destroy_screen method    
-    #         splash.after(1000, destroy_screen)
+            bg_canvas = Canvas(splash, width=500, height=300)
+            bg_canvas.pack(fill='both', expand=True)
+            bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
+            bg_canvas.create_image(250, 130, image=icon)
+            bg_canvas.create_text(250, 250, text="NEILIT-Inventory-Manager",
+                                font="Courier 15", fill="white")
+            # overriding to fullscreen
+            splash.overrideredirect(True)
+            # loding progress bar
+            sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
+            sp_bar.pack(side="bottom")
+            sp_bar.start(15)
+            # stop the progressbar and call login screen 
+            def destroy_screen():
+                sp_bar.stop()
+                login_screen(splash)
+            # after aprox 1 sec call destroy_screen method    
+            splash.after(1000, destroy_screen)
 
-    #         splash.mainloop()
-    #     except Exception as ed:
-    #         print("SPLASH SCREEN ERROR: ", ed)
+            splash.mainloop()
+        except Exception as ed:
+            print("SPLASH SCREEN ERROR: ", ed)
 
 
     # 2nd SCREEN/WINDOW FOR LOGIN
-    def login_screen():
-        splash_screen("inv")
+    def login_screen(splash):
+        try:
+            # destroy the splash screen
+            splash.destroy()
+        except Exception:
+            pass
         
-        # login variable as a tkinter instance
-
-        # login = Tk()
         root = Toplevel()
         root.title("NIELIT INVENTORY LOGIN")
-
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
         root.geometry("600x500+"+str(screen_width//2-300) +
@@ -2388,7 +2338,7 @@ def inv_main():
 
         # root.mainloop()
     
-    login_screen()
+    splash_screen()
     
 main()
 
