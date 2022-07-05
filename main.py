@@ -1,3 +1,4 @@
+from cgitb import text
 from configparser import InterpolationMissingOptionError
 from tkinter import *
 
@@ -27,9 +28,12 @@ import sqlite3
 
 win = Tk()
 win.title("NIELIT Office Management System")
-win.geometry("400x400")
+win.geometry("550x400")
 
-
+# get the window size
+w = win.winfo_screenwidth()
+h = win.winfo_screenheight()
+win.resizable(False, False)
 
 
 # Global IMG for EMP
@@ -37,10 +41,10 @@ icon = PhotoImage(file="./res/img/logo.png")
 thumbnail_login = Image.open("./res/img/login_background.jpg")
 thumbnail = ImageTk.PhotoImage(thumbnail_login)
 
-
 image1='./res/img/white_bg.png'
 image2='./res/img/white_bg.png'
 image3='./res/img/white_bg.png'
+
 
 
 
@@ -50,14 +54,86 @@ def main():
     #add background image to window
     # win.configure(background='black')
     
+
+
+    #make canvas with background image
+    canvas = Canvas(win, width=550, height=400, bg='black')
+    canvas.grid(row=0, column=0, columnspan=6, rowspan=6)
+    #insert image in canvas
+    canvas.create_image(0, 0, anchor=NW, image=thumbnail)
+
+
+    #create canvas and insert logo
+    canvas = Canvas(win, width=200, height=200)
+    canvas.grid(row=0, column=0)
+    canvas.create_image(0, 0, anchor=NW, image=icon)
+    # make canvas background transparent
+    # canvas.wm_attributes('-transparentcolor', '#ab23ff')
+
+    #insert text in main window
+    text = Label(win, text="NIELIT Office Management System", font=("Roboto", 20))
+    text.grid(row=0, column=1, columnspan=5, padx=10, pady=10)
+    
     emp_menu = Button(win, text="Employee", command=emp_main)
-    emp_menu.grid(row=1,column=1, padx=10, pady=10)
+    emp_menu.grid(row=3,column=2, padx=10, pady=10)
 
     lib_menu = Button(win, text="Library", command=lib_main)
     lib_menu.grid(row=4,column=0, padx=10, pady=10)
 
     inv_menu = Button(win, text="Inventory", command=inv_main)
     inv_menu.grid(row=4,column=4, padx=10, pady=10)
+
+
+def splash_screen(app):
+    try:
+        # loading data from exel database file in different thread
+        # read_xlsx_thread = threading.Thread(target=read_xlsx)
+        # read_xlsx_thread.start()
+        # splash screen/window
+        splash = Toplevel()
+        # pos and size of splash scereen
+        screen_width = splash.winfo_screenwidth()
+        screen_height = splash.winfo_screenheight()
+        splash.geometry("500x300+"+str(screen_width//2-250) +
+                        "+"+str(screen_height//2-150))
+        # adding splash image
+        # img = Image.open("./res/img/logo.jpg")
+        # img = img.resize((200, 200), Image.ANTIALIAS)
+        # thumbnail = ImageTk.PhotoImage(img)
+        # img2 = Image.open("./res/img/login_background.jpg")
+        # thumbnail2 = ImageTk.PhotoImage(thumbnail_splash2)
+        # creating canvas for background image
+        bg_canvas = Canvas(splash, width=500, height=300)
+        bg_canvas.pack(fill='both', expand=True)
+        bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
+        bg_canvas.create_image(250, 130, image=icon)
+
+        if app == "emp":
+            text = "Employee"
+        elif app == "lib":
+            text = "Library"
+        elif app == "inv":
+            text = "Inventory"
+
+        bg_canvas.create_text(250, 250, text="NIELIT-{}-Management".format(text.upper()),
+                            font="Courier 15", fill="white")
+        # overriding to fullscreen
+        splash.overrideredirect(True)
+        # loding progress bar
+        sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
+        sp_bar.pack(side="bottom")
+        sp_bar.start(15)
+        # stop the progressbar and call login screen 
+        def destroy_screen():
+            sp_bar.stop()
+            splash.destroy()
+            # login_screen(splash)
+        # after aprox 1 sec call destroy_screen method    
+        splash.after(1000, destroy_screen)
+
+        splash.mainloop()
+    except Exception as ed:
+        print("SPLASH SCREEN ERROR: ", ed)
 
 
 
@@ -153,56 +229,52 @@ def emp_main():
             file_check()
 
     # 1st WINDOW/SCREEN FOR SPLASH/LOADING PROGRESS
-    def splash_screen():
-        try:
-            # loading data from exel database file in different thread
-            read_xlsx_thread = threading.Thread(target=read_xlsx)
-            read_xlsx_thread.start()
-            # splash screen/window
-            splash = Toplevel()
-            # pos and size of splash scereen
-            screen_width = splash.winfo_screenwidth()
-            screen_height = splash.winfo_screenheight()
-            splash.geometry("500x300+"+str(screen_width//2-250) +
-                            "+"+str(screen_height//2-150))
-            # adding splash image
-            # img = Image.open("./res/img/logo.jpg")
-            # img = img.resize((200, 200), Image.ANTIALIAS)
-            # thumbnail = ImageTk.PhotoImage(img)
-            # img2 = Image.open("./res/img/login_background.jpg")
-            # thumbnail2 = ImageTk.PhotoImage(thumbnail_splash2)
-            # creating canvas for background image
-            bg_canvas = Canvas(splash, width=500, height=300)
-            bg_canvas.pack(fill='both', expand=True)
-            bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
-            bg_canvas.create_image(250, 130, image=icon)
-            bg_canvas.create_text(250, 250, text="NIELIT-Employee-Management",
-                                font="Courier 15", fill="white")
-            # overriding to fullscreen
-            splash.overrideredirect(True)
-            # loding progress bar
-            sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
-            sp_bar.pack(side="bottom")
-            sp_bar.start(15)
-            # stop the progressbar and call login screen 
-            def destroy_screen():
-                sp_bar.stop()
-                login_screen(splash)
-            # after aprox 1 sec call destroy_screen method    
-            splash.after(1000, destroy_screen)
+    # def splash_screen():
+    #     try:
+    #         # loading data from exel database file in different thread
+    #         read_xlsx_thread = threading.Thread(target=read_xlsx)
+    #         read_xlsx_thread.start()
+    #         # splash screen/window
+    #         splash = Toplevel()
+    #         # pos and size of splash scereen
+    #         screen_width = splash.winfo_screenwidth()
+    #         screen_height = splash.winfo_screenheight()
+    #         splash.geometry("500x300+"+str(screen_width//2-250) +
+    #                         "+"+str(screen_height//2-150))
+    #         # adding splash image
+    #         # img = Image.open("./res/img/logo.jpg")
+    #         # img = img.resize((200, 200), Image.ANTIALIAS)
+    #         # thumbnail = ImageTk.PhotoImage(img)
+    #         # img2 = Image.open("./res/img/login_background.jpg")
+    #         # thumbnail2 = ImageTk.PhotoImage(thumbnail_splash2)
+    #         # creating canvas for background image
+    #         bg_canvas = Canvas(splash, width=500, height=300)
+    #         bg_canvas.pack(fill='both', expand=True)
+    #         bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
+    #         bg_canvas.create_image(250, 130, image=icon)
+    #         bg_canvas.create_text(250, 250, text="NIELIT-Employee-Management",
+    #                             font="Courier 15", fill="white")
+    #         # overriding to fullscreen
+    #         splash.overrideredirect(True)
+    #         # loding progress bar
+    #         sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
+    #         sp_bar.pack(side="bottom")
+    #         sp_bar.start(15)
+    #         # stop the progressbar and call login screen 
+    #         def destroy_screen():
+    #             sp_bar.stop()
+    #             login_screen(splash)
+    #         # after aprox 1 sec call destroy_screen method    
+    #         splash.after(1000, destroy_screen)
 
-            splash.mainloop()
-        except Exception as ed:
-            print("SPLASH SCREEN ERROR: ", ed)
+    #         splash.mainloop()
+    #     except Exception as ed:
+    #         print("SPLASH SCREEN ERROR: ", ed)
 
 
     # 2nd SCREEN/WINDOW FOR LOGIN
-    def login_screen(splash):
-        try:
-            # destroy the splash screen
-            splash.destroy()
-        except Exception:
-            pass
+    def login_screen():
+        splash_screen("emp")
         # login variable as a tkinter instance
         login = Toplevel()
         login.title("NIELIT-Employee-Management")
@@ -1169,7 +1241,7 @@ def emp_main():
 
 
     # 1st SCREEN/WINDOW TO START THE APPLICATION
-    splash_screen()
+    splash_screen("emp")
 
 
 def lib_main():
@@ -1623,7 +1695,7 @@ def lib_main():
         canvas.image=photo2
         return canvas
     root = Toplevel()
-    root.title("LIBRARY IINVENTORY LOGIN")
+    root.title("LIBRARY LOGIN")
     # root.geometry("400x400")
 
 
@@ -2091,13 +2163,13 @@ def inv_main():
         def activity(self):
             self.aidd=StringVar()
             self.ausert=StringVar()
-            self.f1=Frame(self.a,height=550,width=500,bg='white')
+            self.f1=Frame(self.a,height=550,width=1000,bg='white')
             self.f1.place(x=500,y=80)
             conn=sqlite3.connect('inventory.db')
             self.list2=("ITEM ID","USER ID","ISSUE DATE","RETURN DATE")
             self.trees=self.create_tree(self.f1,self.list2)
             self.trees.place(x=50,y=150)
-            c=conn.execute("select * from item_issued")
+            c=conn.execute("select iis.ITEM_ID,ii.ITEM,ii.AMOUNT,iis.USER_ID,iis.ISSUE_DATE,iis.RETURN_DATE from item_issued iis,item_info ii where iis.ITEM_ID=ii.ID")
             g=c.fetchall()
             if len(g)!=0:
                 for row in g:
@@ -2153,38 +2225,8 @@ def inv_main():
                 messagebox.showinfo(e)
             conn.close()
 
-    #===================START=======================
-    def canvases(images,w,h):
-        photo=Image.open(images)
-        photo1=photo.resize((w,h),Image.ANTIALIAS)
-        photo2=ImageTk.PhotoImage(photo1)
-
-    #photo2 = ImageTk.PhotoImage(Image.open(images).resize((w, h)),Image.ANTIALIAS)
-        canvas = Canvas(root, width='%d'%w, height='%d'%h)
-        canvas.grid(row = 0, column = 0)
-        canvas.grid_propagate(0)
-        canvas.create_image(0, 0, anchor = NW, image=photo2)
-        canvas.image=photo2
-        return canvas
-    root = Toplevel()
-    root.title("IINVENTORY LOGIN")
-    # root.geometry("400x400")
-
-    """width = 400
-    height = 280
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    x = (screen_width/2) - (width/2)
-    y = (screen_height/2) - (height/2)"""
-
-    #root.state('zoomed')
-    #root.resizable(0, 0)
-    w = root.winfo_screenwidth()
-    h = root.winfo_screenheight()
-    canvas=canvases(image3,w,h)
-    #photo=PhotoImage(file=images)
-
-
+    
+    
     #==============================METHODS========================================
     def Database():
         global conn, cursor
@@ -2203,7 +2245,7 @@ def inv_main():
 
         if USERNAME.get() == "" or PASSWORD.get() == "":
             messagebox.showinfo("Error","Please complete the required field!")
-            lbl_text.config(text="Please complete the required field!", fg="red")
+            # lbl_text.config(text="Please complete the required field!", fg="red")
         else:
             cursor.execute("SELECT * FROM `login` WHERE `username` = ? AND `password` = ?", (USERNAME.get(), PASSWORD.get()))
             if cursor.fetchone() is not None:
@@ -2221,7 +2263,6 @@ def inv_main():
         cursor.close()
         conn.close()
 
-
     #==============================VARIABLES======================================
     USERNAME = StringVar()
     PASSWORD = StringVar()
@@ -2232,30 +2273,123 @@ def inv_main():
     Form = Frame(root, height=200)
     Form.pack(side=BOTTOM, pady=20)'''
     #==============================LABELS=========================================
-    lbl_title = Label(canvas, text = "INVENTORY     ADMIN   LOGIN", font=('Papyrus', 30,'bold', ),bg='white', fg='black')
-    lbl_title.place(x=500,y=100)
-    lbl_username = Label(canvas, text = "Username:", font=('Papyrus', 15,'bold'),bd=4,bg='white', fg='black')
-    lbl_username.place(x=500,y=230)
-    lbl_password = Label(canvas, text = "Password :", font=('Papyrus', 15,'bold'),bd=3, bg='white', fg='black')
-    lbl_password.place(x=500, y=330)
-    lbl_text = Label(canvas)
-    lbl_text.place(x=450,y=500)
-    lbl_text.grid_propagate(0)
+    # lbl_title = Label(canvas, text = "INVENTORY     ADMIN   LOGIN", font=('Papyrus', 30,'bold', ),bg='white', fg='black')
+    # lbl_title.place(x=100,y=20)
+    # lbl_username = Label(canvas, text = "Username:", font=('Papyrus', 15,'bold'),bd=4,bg='white', fg='black')
+    # lbl_username.place(x=300,y=50)
+    # lbl_password = Label(canvas, text = "Password :", font=('Papyrus', 15,'bold'),bd=3, bg='white', fg='black')
+    # lbl_password.place(x=205, y=255)
+    # lbl_text = Label(canvas)
+    # lbl_text.place(x=450,y=500)
+    # lbl_text.grid_propagate(0)
 
 
 
     #==============================ENTRY WIDGETS==================================
-    username = Entry(canvas, textvariable=USERNAME, font=(14), bg='white', fg='black',bd=6)
-    username.place(x=650, y=230,)
-    password = Entry(canvas, textvariable=PASSWORD, show="*", font=(14),bg='white', fg='black',bd=6)
-    password.place(x=650, y=330)
+    # username = Entry(canvas, textvariable=USERNAME, font=(14), bg='white', fg='black',bd=6)
+    # username.place(x=160, y=190,)
+    # password = Entry(canvas, textvariable=PASSWORD, show="*", font=(14),bg='white', fg='black',bd=6)
+    # password.place(x=160, y=270)
 
-    #==============================BUTTON WIDGETS=================================
-    btn_login = Button(canvas, text="LOGIN", font=('Papyrus 15 bold'),width=25,command=Login, bg='white', fg='black')
-    btn_login.place(x=500,y=400)
-    btn_login.bind('<Return>', Login)
-    root.mainloop()
+    # #==============================BUTTON WIDGETS=================================
+    # btn_login = Button(canvas, text="LOGIN", font=('Papyrus 15 bold'),width=25,command=Login, bg='white', fg='black')
+    # btn_login.place(x=419,y=271)
+    # btn_login.bind('<Return>', Login)
+    # root.mainloop()
 
+     # 1st WINDOW/SCREEN FOR SPLASH/LOADING PROGRESS
+    # def splash_screen():
+    #     try:
+    #         # root.destroy()
+    #         splash = Tk()
+    #         # pos and size of splash scereen
+    #         screen_width = splash.winfo_screenwidth()
+    #         screen_height = splash.winfo_screenheight()
+    #         splash.geometry("500x300+"+str(screen_width//2-250) +
+    #                         "+"+str(screen_height//2-150))
+            
+    #         bg_canvas = Canvas(splash, width=500, height=300)
+    #         bg_canvas.pack(fill='both', expand=True)
+    #         bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
+    #         bg_canvas.create_image(250, 130, image=icon)
+    #         bg_canvas.create_text(250, 250, text="Master-Manager",
+    #                             font="Courier 15", fill="white")
+    #         # overriding to fullscreen
+    #         splash.overrideredirect(True)
+    #         # loding progress bar
+    #         sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
+    #         sp_bar.pack(side="bottom")
+    #         sp_bar.start(15)
+    #         # stop the progressbar and call login screen 
+    #         def destroy_screen():
+    #             sp_bar.stop()
+    #             login_screen(splash)
+    #         # after aprox 1 sec call destroy_screen method    
+    #         splash.after(1000, destroy_screen)
+
+    #         splash.mainloop()
+    #     except Exception as ed:
+    #         print("SPLASH SCREEN ERROR: ", ed)
+
+
+    # 2nd SCREEN/WINDOW FOR LOGIN
+    def login_screen():
+        splash_screen("inv")
+        
+        # login variable as a tkinter instance
+
+        # login = Tk()
+        root = Toplevel()
+        root.title("NIELIT INVENTORY LOGIN")
+
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        root.geometry("600x500+"+str(screen_width//2-300) +
+                    "+"+str(screen_height//2-300))
+        # loading and resizing root bacground image
+        # img = Image.open("./res/img/login_background.jpg")
+        # thumbnail = ImageTk.PhotoImage(thumbnail_login)
+        # root background canvas with image
+        bg_canvas = Canvas(root, width=600, height=500)
+        bg_canvas.pack(fill='both', expand=True)
+        bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
+        bg_canvas.create_text(300, 50, text="Login",
+                            font="Courier 30", fill="white")
+        bg_canvas.create_text(205, 175, text="Username",
+                            font="Courier 15", fill="white")
+        bg_canvas.create_text(205, 255, text="Password",
+                            font="Courier 15", fill="white")
+        # Username and Password ENTRY BOX
+        username = Entry(root,textvariable=USERNAME, width=25, font='Courier 15')
+        username.place(x=160, y=190)
+
+        pwd = Entry(root, textvariable=PASSWORD, width=25, font='Courier 15', show="*")
+        pwd.place(x=160, y=270)
+        # show/hide password method 
+        def toggle_pwd():
+            if pwd.cget('show') == "*":
+                pwd.config(show="")
+                show_btn.config(text="Hide")
+            else:
+                pwd.config(show="*")
+                show_btn.config(text="❉")  # ❉
+        # Show / hide pwd btn
+        show_btn = Button(root, text='❉', width=5,
+                        font="Courier 8", command=toggle_pwd)
+        show_btn.place(x=419, y=271)
+
+       
+        # Login Button
+        login_btn = Button(root, text="Login", font="Courier 12", bg="#982E3C",
+                        fg="black", activebackground="#BF1832", command=Login, width=10)
+        login_btn.place(x=255, y=350)
+        # Binding auth func to activate when enter is pressed
+        root.bind('<Return>', lambda event=None: login_btn.invoke())
+
+        # root.mainloop()
+    
+    login_screen()
+    
 main()
 
 win.mainloop()
