@@ -27,7 +27,7 @@ import sqlite3
 # Create a window with three buttons and a text field
 
 win = Tk()
-win.title("NIELIT Office Management System")
+win.title("G-Plus Office Management System")
 win.geometry("550x400")
 
 # get the window size
@@ -65,12 +65,12 @@ def main():
 
 
     #create canvas and insert logo
-    canvas = Canvas(win, width=200, height=200)
+    canvas = Canvas(win, width=200, height=100)
     canvas.grid(row=0, column=0)
     canvas.create_image(0, 0, anchor=NW, image=icon)
 
     #insert text in main window
-    text = Label(win, text="NIELIT Office Management System", font=("Roboto", 20))
+    text = Label(win, text="G-Plus Office Management System", font=("Roboto", 20))
     text.grid(row=0, column=1, columnspan=5, padx=10, pady=10)
     
     emp_menu = Button(win, text="Employee", command=emp_main)
@@ -199,7 +199,7 @@ def emp_main():
             bg_canvas.pack(fill='both', expand=True)
             bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
             bg_canvas.create_image(250, 130, image=icon)
-            bg_canvas.create_text(250, 250, text="NIELIT-Employee-Management",
+            bg_canvas.create_text(250, 250, text="G-Plus-Employee-Management",
                                 font="Courier 15", fill="white")
             # overriding to fullscreen
             splash.overrideredirect(True)
@@ -228,7 +228,7 @@ def emp_main():
             pass
         # login variable as a tkinter instance
         login = Toplevel()
-        login.title("NIELIT-Employee-Management")
+        login.title("G-Plus-Employee-Management")
         # window icon
         # icon = PhotoImage(file=login_icon)
         login.iconphoto(False, icon)
@@ -574,21 +574,21 @@ def emp_main():
             pd = pay_entry.get()
 
             if ids == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'ID Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'ID Entry is empty')
             elif fn == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'FIRST NAME Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'FIRST NAME Entry is empty')
             elif ln == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'LAST NAME Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'LAST NAME Entry is empty')
             elif dep == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'DEPARTMENT Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'DEPARTMENT Entry is empty')
             elif tm == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'TEAM Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'TEAM Entry is empty')
             elif pst == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'POST Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'POST Entry is empty')
             elif sft == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'SHIFT Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'SHIFT Entry is empty')
             elif pd == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'PAY Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'PAY Entry is empty')
             else:
                 # updating row data in treeview widget
                 selected = tv.focus()
@@ -625,11 +625,11 @@ def emp_main():
             res = ''
             if len(target) == 1:
                 # asking for conformation
-                res = messagebox.askquestion("NIELIT-Employee-Management", "Are you sure?\nRemove "+'SL_NO: '+str(employee_details[0])+" "+str(employee_details[1])+" "+str(
+                res = messagebox.askquestion("G-Plus-Employee-Management", "Are you sure?\nRemove "+'SL_NO: '+str(employee_details[0])+" "+str(employee_details[1])+" "+str(
                     employee_details[2])+" "+str(employee_details[3])+" "+str(employee_details[4])+" "+str(employee_details[5])+" "+str(employee_details[6]))
             if len(target) > 1:
                 res = messagebox.askquestion(
-                    "NIELIT-Employee-Management", "Are you sure?\nRemove "+str(len(target))+" Employees")
+                    "G-Plus-Employee-Management", "Are you sure?\nRemove "+str(len(target))+" Employees")
             else:
                 pass
             if res == 'yes':
@@ -664,7 +664,7 @@ def emp_main():
             # method to del all data only after authintication
             def delete_database_auth_done():
                 res = messagebox.askquestion(
-                    "NIELIT-Employee-Management", 'Are you sure?\nDeleted data cannot be recovered later !')
+                    "G-Plus-Employee-Management", 'Are you sure?\nDeleted data cannot be recovered later !')
                 if res == 'yes':
                     for rows in tv.get_children():
                         tv.delete(rows)
@@ -720,7 +720,7 @@ def emp_main():
 
                 auth_del.mainloop()
             warning = messagebox.showwarning(
-                "NIELIT-Employee-Management", 'All the Employee data will be deleted !')
+                "G-Plus-Employee-Management", 'All the Employee data will be deleted !')
             if warning:
                 auth_for_del_database()
             else:
@@ -755,21 +755,21 @@ def emp_main():
             pd = pay_entry.get()
             # Error protection logic
             if ids == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'ID Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'ID Entry is empty')
             elif fn == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'FIRST NAME Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'FIRST NAME Entry is empty')
             elif ln == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'LAST NAME Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'LAST NAME Entry is empty')
             elif dep == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'DEPARTMENT Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'DEPARTMENT Entry is empty')
             elif tm == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'TEAM Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'TEAM Entry is empty')
             elif pst == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'POST Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'POST Entry is empty')
             elif sft == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'SHIFT Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'SHIFT Entry is empty')
             elif pd == '':
-                messagebox.showerror("NIELIT-Employee-Management", 'PAY Entry is empty')
+                messagebox.showerror("G-Plus-Employee-Management", 'PAY Entry is empty')
             else:
                 # storing all fields data into a temp list
                 emp_data = [str(len(data)+1), ids, fn, ln, dep, tm, pst, sft, pd]
@@ -1167,7 +1167,7 @@ def emp_main():
         menu.add_cascade(label='Help', menu=help_menu)
         help_menu.add_command(label='View Help',command=open_view_help)
         help_menu.add_command(label='Send Feedback',command=open_feedback)
-        help_menu.add_command(label='About NIELIT-Employee-Management',command=open_about)
+        help_menu.add_command(label='About G-Plus-Employee-Management',command=open_about)
         help_menu.add_separator()
         # help_menu.add_command(label='Made By Vivek Kushal Chakraborty')
 
@@ -1178,7 +1178,7 @@ def emp_main():
 
         # method to save the Changed data to DATABASE.xlsx file upon exit Application
         def close_main_window():
-            res = messagebox.askyesnocancel("NIELIT-Employee-Management", 'SAVE CHANGES ?')
+            res = messagebox.askyesnocancel("G-Plus-Employee-Management", 'SAVE CHANGES ?')
             if res:
                 update_db_file()
                 main.destroy()
@@ -1230,7 +1230,7 @@ def lib_main():
 
             self.a.create_image(0, 0, anchor=NW, image=icon)
             self.a.grid(row=0, column=0)
-            text = Label(win, text="NIELIT Library Management System", font=("Roboto", 20))
+            text = Label(win, text="G-Plus Library Management System", font=("Roboto", 20))
             text.grid(row=0, column=1, columnspan=5, padx=10, pady=10)
     
             l1=Button(self.a,text='BOOK',font='Papyrus 22 bold',fg='black',bg='white',width=19,padx=10,borderwidth=0,command=self.book).place(x=100,y=500)
@@ -1698,7 +1698,7 @@ def lib_main():
             bg_canvas.pack(fill='both', expand=True)
             bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
             bg_canvas.create_image(250, 130, image=icon)
-            bg_canvas.create_text(250, 250, text="NEILIT-Library-Manager",
+            bg_canvas.create_text(250, 250, text="G-Plus-Library-Manager",
                                 font="Courier 15", fill="white")
             # overriding to fullscreen
             splash.overrideredirect(True)
@@ -1727,7 +1727,7 @@ def lib_main():
             pass
         
         root = Toplevel()
-        root.title("NIELIT INVENTORY LOGIN")
+        root.title("G-Plus INVENTORY LOGIN")
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
         root.geometry("600x500+"+str(screen_width//2-300) +
@@ -1814,7 +1814,7 @@ def inv_main():
 
             self.a.create_image(0, 0, anchor=NW, image=icon)
             self.a.grid(row=0, column=0)
-            text = Label(win, text="NIELIT Inventory Management System", font=("Roboto", 20))
+            text = Label(win, text="G-Plus Inventory Management System", font=("Roboto", 20))
             text.grid(row=0, column=1, columnspan=5, padx=10, pady=10)
     
 
@@ -2283,7 +2283,7 @@ def inv_main():
             bg_canvas.pack(fill='both', expand=True)
             bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
             bg_canvas.create_image(250, 130, image=icon)
-            bg_canvas.create_text(250, 250, text="NEILIT-Inventory-Manager",
+            bg_canvas.create_text(250, 250, text="G-Plus-Inventory-Manager",
                                 font="Courier 15", fill="white")
             # overriding to fullscreen
             splash.overrideredirect(True)
@@ -2312,7 +2312,7 @@ def inv_main():
             pass
         
         root = Toplevel()
-        root.title("NIELIT INVENTORY LOGIN")
+        root.title("G-Plus INVENTORY LOGIN")
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
         root.geometry("600x500+"+str(screen_width//2-300) +
