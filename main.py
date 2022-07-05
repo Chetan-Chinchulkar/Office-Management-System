@@ -1631,39 +1631,6 @@ def lib_main():
                 messagebox.showinfo(e)
             conn.close()
 
-    #===================START=======================
-    def canvases(images,w,h):
-        photo=Image.open(images)
-        photo1=photo.resize((w,h),Image.ANTIALIAS)
-        photo2=ImageTk.PhotoImage(photo1,master=root)
-
-    #photo2 = ImageTk.PhotoImage(Image.open(images).resize((w, h)),Image.ANTIALIAS)
-        canvas = Canvas(root, width='%d'%w, height='%d'%h)
-        canvas.grid(row = 0, column = 0)
-        canvas.grid_propagate(0)
-        canvas.create_image(0, 0, anchor = NW, image=photo2)
-        canvas.image=photo2
-        return canvas
-    root = Toplevel()
-    root.title("LIBRARY LOGIN")
-    # root.geometry("400x400")
-
-
-    """width = 400
-    height = 280
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    x = (screen_width/2) - (width/2)
-    y = (screen_height/2) - (height/2)"""
-
-    #root.state('zoomed')
-    #root.resizable(0, 0)
-    w = root.winfo_screenwidth()
-    h = root.winfo_screenheight()
-    canvas=canvases(image3,w,h)
-    #photo=PhotoImage(file=images)
-
-
     #==============================METHODS========================================
     def Database():
         global conn, cursor
@@ -1676,13 +1643,13 @@ def lib_main():
             cursor.execute("INSERT INTO `login` (username, password) VALUES('libadmin', 'libadmin')")
             conn.commit()
 
-    def Login(event=None):
+    def Login(root,event=None):
         Database()
 
 
         if USERNAME.get() == "" or PASSWORD.get() == "":
             messagebox.showinfo("Error","Please complete the required field!")
-            lbl_text.config(text="Please complete the required field!", fg="red")
+            # lbl_text.config(text="Please complete the required field!", fg="red")
         else:
             cursor.execute("SELECT * FROM `login` WHERE `username` = ? AND `password` = ?", (USERNAME.get(), PASSWORD.get()))
             if cursor.fetchone() is not None:
@@ -1708,35 +1675,97 @@ def lib_main():
     USERNAME = StringVar()
     PASSWORD = StringVar()
 
-    #==============================FRAMES=========================================
-    '''Top = Frame(root, bd=2,  relief=RIDGE)
-    Top.pack(side=TOP, fill=X)
-    Form = Frame(root, height=200)
-    Form.pack(side=BOTTOM, pady=20)'''
-    #==============================LABELS=========================================
-    lbl_title = Label(canvas, text = "LIBRARY   ADMIN   LOGIN", font=('Papyrus', 30,'bold', ),bg='white', fg='black')
-    lbl_title.place(x=500,y=100)
-    lbl_username = Label(canvas, text = "Username:", font=('Papyrus', 15,'bold'),bd=4,bg='white', fg='black')
-    lbl_username.place(x=500,y=230)
-    lbl_password = Label(canvas, text = "Password :", font=('Papyrus', 15,'bold'),bd=3, bg='white', fg='black')
-    lbl_password.place(x=500, y=330)
-    lbl_text = Label(canvas)
-    lbl_text.place(x=450,y=500)
-    lbl_text.grid_propagate(0)
+    def splash_screen():
+        try:
+            # root.destroy()
+            splash = Toplevel()
+            # pos and size of splash scereen
+            screen_width = splash.winfo_screenwidth()
+            screen_height = splash.winfo_screenheight()
+            splash.geometry("500x300+"+str(screen_width//2-250) +
+                            "+"+str(screen_height//2-150))
+            
+            bg_canvas = Canvas(splash, width=500, height=300)
+            bg_canvas.pack(fill='both', expand=True)
+            bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
+            bg_canvas.create_image(250, 130, image=icon)
+            bg_canvas.create_text(250, 250, text="NEILIT-Library-Manager",
+                                font="Courier 15", fill="white")
+            # overriding to fullscreen
+            splash.overrideredirect(True)
+            # loding progress bar
+            sp_bar = Progressbar(bg_canvas, mode='determinate', length=500)
+            sp_bar.pack(side="bottom")
+            sp_bar.start(15)
+            # stop the progressbar and call login screen 
+            def destroy_screen():
+                sp_bar.stop()
+                login_screen(splash)
+            # after aprox 1 sec call destroy_screen method    
+            splash.after(1000, destroy_screen)
+
+            splash.mainloop()
+        except Exception as ed:
+            print("SPLASH SCREEN ERROR: ", ed)
 
 
+    # 2nd SCREEN/WINDOW FOR LOGIN
+    def login_screen(splash):
+        try:
+            # destroy the splash screen
+            splash.destroy()
+        except Exception:
+            pass
+        
+        root = Toplevel()
+        root.title("NIELIT INVENTORY LOGIN")
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        root.geometry("600x500+"+str(screen_width//2-300) +
+                    "+"+str(screen_height//2-300))
+        # loading and resizing root bacground image
+        # img = Image.open("./res/img/login_background.jpg")
+        # thumbnail = ImageTk.PhotoImage(thumbnail_login)
+        # root background canvas with image
+        bg_canvas = Canvas(root, width=600, height=500)
+        bg_canvas.pack(fill='both', expand=True)
+        bg_canvas.create_image(0, 0, image=thumbnail, anchor='nw')
+        bg_canvas.create_text(300, 50, text="Login",
+                            font="Courier 30", fill="white")
+        bg_canvas.create_text(205, 175, text="Username",
+                            font="Courier 15", fill="white")
+        bg_canvas.create_text(205, 255, text="Password",
+                            font="Courier 15", fill="white")
+        # Username and Password ENTRY BOX
+        username = Entry(root,textvariable=USERNAME, width=25, font='Courier 15')
+        username.place(x=160, y=190)
 
-    #==============================ENTRY WIDGETS==================================
-    username = Entry(canvas, textvariable=USERNAME, font=(14), bg='white', fg='black',bd=6)
-    username.place(x=650, y=230,)
-    password = Entry(canvas, textvariable=PASSWORD, show="*", font=(14),bg='white', fg='black',bd=6)
-    password.place(x=650, y=330)
+        pwd = Entry(root, textvariable=PASSWORD, width=25, font='Courier 15', show="*")
+        pwd.place(x=160, y=270)
+        # show/hide password method 
+        def toggle_pwd():
+            if pwd.cget('show') == "*":
+                pwd.config(show="")
+                show_btn.config(text="Hide")
+            else:
+                pwd.config(show="*")
+                show_btn.config(text="❉")  # ❉
+        # Show / hide pwd btn
+        show_btn = Button(root, text='❉', width=5,
+                        font="Courier 8", command=toggle_pwd)
+        show_btn.place(x=419, y=271)
 
-    #==============================BUTTON WIDGETS=================================
-    btn_login = Button(canvas, text="LOGIN", font=('Papyrus 15 bold'),width=25,command=Login, bg='white', fg='black')
-    btn_login.place(x=500,y=400)
-    btn_login.bind('<Return>', Login)
-    root.mainloop()
+       
+        # Login Button
+        login_btn = Button(root, text="Login", font="Courier 12", bg="#982E3C",
+                        fg="black", activebackground="#BF1832", command=lambda:Login(root), width=10)
+        login_btn.place(x=255, y=350)
+        # Binding auth func to activate when enter is pressed
+        root.bind('<Return>', lambda event=None: login_btn.invoke())
+
+        # root.mainloop()
+    
+    splash_screen()
 
 
 def inv_main():
@@ -2189,7 +2218,7 @@ def inv_main():
             cursor.execute("INSERT INTO `login` (username, password) VALUES('invadmin', 'invadmin')")
             conn.commit()
 
-    def Login(event=None):
+    def Login(root,event=None):
         Database()
 
 
@@ -2217,35 +2246,7 @@ def inv_main():
     USERNAME = StringVar()
     PASSWORD = StringVar()
 
-    #==============================FRAMES=========================================
-    '''Top = Frame(root, bd=2,  relief=RIDGE)
-    Top.pack(side=TOP, fill=X)
-    Form = Frame(root, height=200)
-    Form.pack(side=BOTTOM, pady=20)'''
-    #==============================LABELS=========================================
-    # lbl_title = Label(canvas, text = "INVENTORY     ADMIN   LOGIN", font=('Papyrus', 30,'bold', ),bg='white', fg='black')
-    # lbl_title.place(x=100,y=20)
-    # lbl_username = Label(canvas, text = "Username:", font=('Papyrus', 15,'bold'),bd=4,bg='white', fg='black')
-    # lbl_username.place(x=300,y=50)
-    # lbl_password = Label(canvas, text = "Password :", font=('Papyrus', 15,'bold'),bd=3, bg='white', fg='black')
-    # lbl_password.place(x=205, y=255)
-    # lbl_text = Label(canvas)
-    # lbl_text.place(x=450,y=500)
-    # lbl_text.grid_propagate(0)
-
-
-
-    #==============================ENTRY WIDGETS==================================
-    # username = Entry(canvas, textvariable=USERNAME, font=(14), bg='white', fg='black',bd=6)
-    # username.place(x=160, y=190,)
-    # password = Entry(canvas, textvariable=PASSWORD, show="*", font=(14),bg='white', fg='black',bd=6)
-    # password.place(x=160, y=270)
-
-    # #==============================BUTTON WIDGETS=================================
-    # btn_login = Button(canvas, text="LOGIN", font=('Papyrus 15 bold'),width=25,command=Login, bg='white', fg='black')
-    # btn_login.place(x=419,y=271)
-    # btn_login.bind('<Return>', Login)
-    # root.mainloop()
+    
 
      # 1st WINDOW/SCREEN FOR SPLASH/LOADING PROGRESS
     def splash_screen():
@@ -2331,7 +2332,7 @@ def inv_main():
        
         # Login Button
         login_btn = Button(root, text="Login", font="Courier 12", bg="#982E3C",
-                        fg="black", activebackground="#BF1832", command=Login, width=10)
+                        fg="black", activebackground="#BF1832", command=lambda:Login(root), width=10)
         login_btn.place(x=255, y=350)
         # Binding auth func to activate when enter is pressed
         root.bind('<Return>', lambda event=None: login_btn.invoke())
